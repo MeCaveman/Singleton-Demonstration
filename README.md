@@ -11,26 +11,29 @@ When you create multiple instances of a regular class, each instance takes up se
 ### ❌ Non-Singleton Approach
 
 ```java
-class RegularLogger {
+public class RegLogger {
+
     private String logFile;
-    
-    public RegularLogger(String filename) {
+    private String timestamp;
+
+    public RegLogger(String filename) {
         this.logFile = filename;
+        this.timestamp = java.time.LocalDateTime.now().toString();
     }
-    
+
     public void log(String message) {
-        // writes to file
+        System.out.println("  Logging to " + logFile + ": " + message);
     }
 }
 ```
 
 **Usage:**
 ```java
-RegularLogger logger1 = new RegularLogger("app.log");
-RegularLogger logger2 = new RegularLogger("app.log");
-RegularLogger logger3 = new RegularLogger("app.log");
+RegLogger log1 = new RegLogger("app.log");
+RegLogger log2 = new RegLogger("app.log");
+RegLogger log3 = new RegLogger("app.log");
 
-System.out.println(logger1 == logger2);  // false - different objects!
+System.out.println(log1 == log2);  // false - different objects!
 ```
 
 **Result:** 3 separate objects in memory
@@ -53,36 +56,38 @@ Memory:
 ### ✅ Singleton Approach
 
 ```java
-class SingletonLogger {
-    private static SingletonLogger instance = null;
+public class SingletonLogger {
+
+    private static SingletonLogger loggerInstance;
     private String logFile;
-    
-    // Private constructor - prevents "new" from outside
+    private String timestamp;
+
+    // Private constructor prevents external instantiation
     private SingletonLogger(String filename) {
         this.logFile = filename;
+        this.timestamp = java.time.LocalDateTime.now().toString();
     }
-    
-    // Public method to get the single instance
-    public static SingletonLogger getInstance(String filename) {
-        if (instance == null) {
-            instance = new SingletonLogger(filename);
+
+    public static SingletonLogger getLoggerInstance(String filename) {
+        if (loggerInstance == null) {
+            loggerInstance = new SingletonLogger(filename);
         }
-        return instance;  // Always returns the SAME object
+        return loggerInstance;
     }
-    
+
     public void log(String message) {
-        // writes to file
+        System.out.println("  Logging to " + logFile + ": " + message);
     }
 }
 ```
 
 **Usage:**
 ```java
-SingletonLogger logger1 = SingletonLogger.getInstance("app.log");
-SingletonLogger logger2 = SingletonLogger.getInstance("app.log");
-SingletonLogger logger3 = SingletonLogger.getInstance("app.log");
+SingletonLogger slog1 = SingletonLogger.getLoggerInstance("app.log");
+SingletonLogger slog2 = SingletonLogger.getLoggerInstance("app.log");
+SingletonLogger slog3 = SingletonLogger.getLoggerInstance("app.log");
 
-System.out.println(logger1 == logger2);  // true - same object!
+System.out.println(slog1 == slog2);  // true - same object!
 ```
 
 **Result:** Only 1 object in memory

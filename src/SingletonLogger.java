@@ -1,6 +1,6 @@
 public class SingletonLogger {
 
-    private static SingletonLogger loggerInstance = null;
+    private static SingletonLogger loggerInstance;
     private String logFile;
     private String timestamp;
 
