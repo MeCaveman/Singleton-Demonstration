@@ -1,11 +1,13 @@
 public class SingletonLogger {
 
+    private static SingletonLogger loggerInstance = null;
     private String logFile;
-    private static SingletonLogger loggerInstance;
+    private String timestamp;
 
+    // Private constructor prevents external instantiation
     private SingletonLogger(String filename) {
         this.logFile = filename;
-        System.out.println("  [Created SingletonLogger for: " + filename + "]");
+        this.timestamp = java.time.LocalDateTime.now().toString();
     }
 
     public static SingletonLogger getLoggerInstance(String filename) {

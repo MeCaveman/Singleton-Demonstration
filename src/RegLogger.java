@@ -1,9 +1,11 @@
 public class RegLogger {
 
     private String logFile;
+    private String timestamp;
+
     public RegLogger(String filename) {
         this.logFile = filename;
-        System.out.println("  [Created new RegularLogger for: " + filename + "]");
+        this.timestamp = java.time.LocalDateTime.now().toString();
     }
 
     public void log(String message) {
